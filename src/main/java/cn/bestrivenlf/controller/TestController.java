@@ -4,6 +4,7 @@ package cn.bestrivenlf.controller;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,10 +19,13 @@ public class TestController {
 	
 	@Autowired
 	private SayHelloService sayHelloService;
+	@RequiresRoles({"admin"})
 	@RequestMapping("/hello")
-	@ResponseBody
+	
 	public String sayHello() {
-		return sayHelloService.sayHello();
+		Subject su = SecurityUtils.getSubject();
+		
+		return "admin";
 	}
 	
 	@RequestMapping("/login")
@@ -43,5 +47,10 @@ public class TestController {
 	@RequestMapping("/user")
 	public String user() {
 		return "user";
+	}
+	
+	@RequestMapping("/admin")
+	public String admin() {
+		return "admin";
 	}
 }
